@@ -10,4 +10,4 @@ The chord app allows users to input chord names and it will display the names of
 It will also display how to play those chords on the instrument the user selects (ukulele, guitar, or banjo).
 The user can then transpose the chords by any number of halfsteps;
 
-help.txt and info.txt are used to help user understand the app.
+help.txt and info.txt exist to help user understand the app.
