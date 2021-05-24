@@ -1,0 +1,14 @@
+Welcome to the music chord app!
+This app will allow you to input chord names and it will display the notes 
+that make up the chord, and the tabs for that chord on an instrument. 
+Then you can input a number of half steps you'd like the chords to be transposed, 
+or you can input new chords.
+Type 'f' or 's' anytime to change between flats or sharps representation.
+Type 'u', 'g', 'b', or 'n' to change between instruments anytime.
+'u' is ukulele, 'g' is guitar, 'b' is banjo, and 'n' is no instrument.
+Chords that are supported are:
+major, minor, sus, sus2, aug, dim, and maj7, dom7, or maj6 can be added to add an extra interval.
+Examples of valid inputs:
+C (C major), F#m (F sharp minor), Bbsus7 (B flat suspened dom7), A#m6 (A sharp minor 6)
+Type 'help' anytime for more information on how to use this app.
+Type 'q' anytime to quit the application.

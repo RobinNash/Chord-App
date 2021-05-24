@@ -1,0 +1,27 @@
+Type 'help' anytime for this diologue.
+Type 'f' or 's' anytime to change between flats or sharps representation.
+Type 'u', 'g', 'b', or 'n' to change between instruments anytime. 'u' is ukulele, 'g' is guitar, 'b' is banjo, and 'n' is no instrument.
+Type 'q' anytime to quit the application.
+
+Chords that are supported are:
+major, minor, sus, sus2, aug, dim, and maj7, dom7, or maj6 can be added to add an extra interval.
+"b" (lower-case b) represents flat, "#" (pound key) represents sharps.
+Examples of valid inputs:
+C (C major), F#m (F sharp minor), Bbsus7 (B flat suspened dom7), A#m6 (A sharp minor 6)
+A major chord can be represented as just the tonic, ex. Db = Db major.
+A minor chord can be just the tonic with the lower-case 'm' after.
+The rest of the chords are represented with the tonic then the extension as written above. 
+To add maj7, dom7, or maj6, these can be placed on the end of your inputted chord written as maj7, 7, and 6 respectively. Ex. Ammaj7, Dbsus26.
+
+The program will prompt you to select an instrument, here you must input one of the given letters 'u', 'g', 'b', or 'n'.
+
+Then it will prompt you to input chord names. They must always each be separated by a space. Ex. "Am C G" is a valid input. If the program does not understand any of the chords, it will pretend you didn't input them. This means if all of them are invalid, the program will appear to do nothing then ask for chords again. This will happen if your input is "hello, world!" for example.
+
+Then the program will continue to ask you to enter chords or a transpose value.
+To transpose previously inputted chords, enter an integer n which is positive or negative. The program will show you the previously inputted chords transposed by n halfsteps. If you choose to enter another integer, the chords you originally inputted will be transposed, not the new transposed chords.
+
+Tabs will be represented in a horizontal list with numbers. 
+Each number represents which fret your finger will be on for that string, 
+the numbers are ordered from first to last string. 0 means open string.
+Ex. C major on ukulele will be [3, 0, 0, 0] which means a finger 
+must be on the 3rd fret of the first (lowest) string, and the rest must be open.
