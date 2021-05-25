@@ -273,6 +273,7 @@ instruments = {'ukulele':ukulele, 'banjo':banjo, 'guitar':guitar}
 
 
 if __name__ == "__main__":
+    # quick app for testing
     flat = False
     while True:
         c = input("Enter chord name: ")
