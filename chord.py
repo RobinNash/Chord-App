@@ -35,6 +35,9 @@ class Chord:
         # Simplifys chord name and sets chord qualities
         self.setNameAndQual()
 
+    def __repr__(self):
+        return self.name
+
 
     def setNameAndQual(self, flat = True):
         '''Helper function to set chord name in simplified form and set chord qualities'''
@@ -130,21 +133,26 @@ class Chord:
 
     def getTabs(self, instrument, tab = [], tabs = []):
         '''Returns many fingerings for the chord on a given instrument'''
-        inst = instrument # because short name is easier
         notes = self.getNotes(flat = False)
         
         # List of lists that each hold where the first occurance of all notes in the chord is played on each string
-        stringTabs = [sorted([inst.notes[note][string] for note in notes]) for string in range(inst.strings)]
+        stringTabs = [sorted([instrument.notes[note][string] for note in notes]) for string in range(instrument.strings)]
 
         # Makes every combo of tabs for chord (does not ensure all notes are being played)
-        if len(tab) < inst.strings:
+        if len(tab) < instrument.strings:
             for i in range(len(notes)):
-                self.getTabs(inst, tab[:]+[stringTabs[len(tab)][i]], tabs)
+                self.getTabs(instrument, tab[:]+[stringTabs[len(tab)][i]], tabs)
                 
         # Adds the tab if it contains all notes and fingering is close enough together   
         else:
-            if [] not in [[tab[i] for i in range(len(tab)) if tab[i]==inst.notes[note][i]] for note in notes] and greatestDistance(tab) <= inst.fingerDistance:
-                tabs.append(tab[:])
+            # accomodate banjo
+            if instrument.name == 'banjo':
+                if [] not in [[tab[i] for i in range(len(tab)) if tab[i]==instrument.notes[note][i]] for note in notes if note!="G"] and greatestDistance(tab) <= instrument.fingerDistance:
+                    tab.append(0 if 'G' in notes else 'x')
+                    tabs.append(tab[:])
+            else:
+                if [] not in [[tab[i] for i in range(len(tab)) if tab[i]==instrument.notes[note][i]] for note in notes] and greatestDistance(tab) <= instrument.fingerDistance:
+                    tabs.append(tab[:])
 
         return tabs
 
@@ -172,7 +180,20 @@ class Instrument:
         self.strings = len(tuning)
         # Tuple of first occurance of each note on each string as sharps
         self.notes = {note : tuple(getDistance(sharps, sharpen(n), note) for n in tuning) for note in sharps}
-        
+        if name == 'banjo':
+            for note in self.notes:
+                self.notes[note] = self.notes[note][:-1] + ((0,) if note == "G" else (self.notes[note][-1]+5,))
+                
+# modified for 5th string
+class Banjo(Instrument):
+    def __init__(self, fingerDistance = 4):
+        super().__init__("banjo", ["D","B","G","D","G"], fingerDistance = 4)
+        self.strings = 4 # not true, but we want to mostly ignore the last string
+        self.notes_full = {}
+        for note in self.notes:
+            self.notes_full[note] = self.notes[note][:-1] + ((0,) if note == "G" else (self.notes[note][-1]+5,))
+            self.notes[note] = self.notes[note][:-1]
+
    
 #### Note functions #####################################################################################
 
@@ -259,7 +280,9 @@ ukulele = Instrument("ukulele", ["A","E","C","G"], 4)
 # Banjo
 banjoNotes = {'C':(10,10,5,1,10), 'C#':(11,11,6,2,11), 'D':(12,0,7,3,0), 'D#':(13,1,8,4,1), 'E':(14,2,9,5,2), 'F':(15,3,10,6,3), 'F#':(16,4,11,7,4), 'G':(0,5,0,8,5), 'G#':(6,6,1,9,6), 'A':(7,7,2,10,7), 'A#':(8,8,3,11,8), 'B':(9,9,4,0,9)}
 banjoStrings = [['G' for i in range(6)]+[sharps[i%12] for i in range(8,25)]]+[[sharps[i%12] for i in range(i,23+i)] for i in [sharps.index(note) for note in ('D','G','B','D')]]
-banjo = {'name':'banjo','notes':banjoNotes,'fingerDistance':3 ,'strings':5}
+banjo_ = {'name':'banjo','notes':banjoNotes,'fingerDistance':3 ,'strings':5}
+##banjo = Instrument("banjo", ["D","B","G","D","G"])# last string is G but the string starts up 5 semitones
+banjo = Banjo()
 
 # Guitar
 guitarStrings = [[sharps[i%12] for i in range(ii,19+ii)] for ii in [sharps.index(note) for note in 'EBGDAE']]
@@ -271,9 +294,15 @@ instruments = {'ukulele':ukulele, 'banjo':banjo, 'guitar':guitar}
 
 
 
-
+# Tests #
 if __name__ == "__main__":
-    # quick app for testing
+    print(banjo.notes)
+    for c in ["C","A","A7","Am7"]:
+        c= Chord(c)
+        print(c)
+        print(c.getTabs(banjo,[],[]))
+        
+    # mini test app
     flat = False
     while True:
         c = input("Enter chord name: ")
@@ -284,3 +313,5 @@ if __name__ == "__main__":
         print(c.getNotes(flat))#
         print(c.getName(flat))
 ##        print(c.getNotes(True))
+
+        
