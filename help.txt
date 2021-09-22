@@ -22,6 +22,6 @@ To transpose previously inputted chords, enter an integer n which is positive or
 
 Tabs will be represented in a horizontal list with numbers. 
 Each number represents which fret your finger will be on for that string, 
-the numbers are ordered from first to last string. 0 means open string.
-Ex. C major on ukulele will be [3, 0, 0, 0] which means a finger 
+the numbers are ordered from first to last string. 0 means open string, x means muted string.
+Ex. C major on ukulele will be [3 0 0 0] which means a finger 
 must be on the 3rd fret of the first (lowest) string, and the rest must be open.
