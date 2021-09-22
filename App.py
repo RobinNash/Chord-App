@@ -16,7 +16,7 @@ def display_tabs(instrument,chord):
     '''Displays the tabs for a chord on a given instrument
     instruction on how to read these tabs are found in help.txt'''
     if instrument != None:
-        print(chord.getTabs(instrument, [], []))
+        print(str(chord.getTabs(instrument, [], []))[1:-1].replace(', ',' ').replace("'",""))
 
 def display_notes(chord,flats):
     '''Displays the chord name then the notes that make up the chord'''
@@ -25,7 +25,9 @@ def display_notes(chord,flats):
     print(name+":"," ".join(notes))
         
 # so user can switch instruments with one key
-short = {'g':'guitar','u':'ukulele','b':'banjo'}
+short = {'g':'guitar','u':'ukulele','b':'banjo','n':'no instrument'}
+# add None to instruments
+instruments['no instrument'] = None
 
 # get info for the top
 info_file = open("info.txt")
@@ -77,13 +79,9 @@ for i in range(len(intros)):
             print(help_info)
 
         # set instrument
-        elif inp in ['u','g','b','n']:
-            if inp in 'ugb':
-                instrument = instruments[short[inp]]
-                print("Instrument set to", short[inp])
-            if valid[1]:
-                instrument = None
-                print("Instrument set to no instrument")
+        elif inp in short.keys():
+            instrument = instruments[short[inp]]
+            print("Instrument set to", short[inp])
             valid[1] = True
             
         # chords
