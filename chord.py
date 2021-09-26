@@ -69,7 +69,7 @@ class Chord:
                 parts[0]+='#'
                 break
             
-        # Fixes potential crappyness of tonic (ex Cb -> B)
+        # Fixes potentially strange enharmonic equivalents of tonic (ex Cb -> B)
         parts[0] = validify(parts[0])
         
         # Checks for the main chord quality
@@ -197,9 +197,9 @@ class Banjo(Instrument):
    
 #### Note functions #####################################################################################
 
-
 def validify(note):
-    '''makes a note like Cb into B, however if note is invalid like "H#", it will return the original note "H#"'''
+    '''Fixes strange enharmonic equivalents. For example turns a note like Cb into B.
+    However if note is invalid like "H#", it will return the original note "H#"'''
     bad = ['B#','E#','Cb','Fb']
     good = ['C','F','B','E']
     if note in bad:
